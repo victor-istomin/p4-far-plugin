@@ -1,0 +1,7 @@
+LIBRARY        P4_Plugin
+DESCRIPTION    'P4 Plugin for Far Manager'
+EXPORTS
+  GetGlobalInfoW
+  SetStartupInfoW
+  GetPluginInfoW
+  OpenW
