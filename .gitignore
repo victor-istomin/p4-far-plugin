@@ -1,28 +1,28 @@
-# User-specific files
-*.suo
-*.user
-*.sln.docstates
 
+# User-specific files
+# Visual C++ cache files
+# Visual Studio profiler
 # generated files
+*.aps
+*.cachefile
 *.ilk
+*.log
+*.ncb
 *.obj
+*.opensdf
 *.pch
 *.pdb
 *.pgc
 *.pgd
-*.log
-*.vspscc
-*.vssscc
-
-# Visual C++ cache files
-ipch/
-*.aps
-*.ncb
-*.opensdf
-*.sdf
-*.cachefile
-
-# Visual Studio profiler
 *.psess
+*.sdf
+*.sln.docstates
+*.suo
+*.user
 *.vsp
+*.vspscc
 *.vspx
+*.vssscc
+ipch/
+plugin/Debug/
+plugin/p4-plugin-msvc2012/Debug/
