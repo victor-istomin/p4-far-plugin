@@ -1,3 +1,3 @@
 [submodule "farmanager"]
-	path = farmanager
+	path = third-party/farmanager
 	url = https://github.com/svn2github/farmanager.git
