@@ -1,0 +1,28 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# generated files
+*.ilk
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.log
+*.vspscc
+*.vssscc
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
