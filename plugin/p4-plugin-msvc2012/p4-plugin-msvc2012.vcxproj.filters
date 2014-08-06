@@ -87,4 +87,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\p4_plugin.vc.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\p4-far-plugin_en.hlf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\p4-far-plugin_en.lng">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

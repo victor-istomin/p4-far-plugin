@@ -62,6 +62,12 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;shell32.lib;ole32.lib;uuid.lib;mpr.lib;version.lib;oleaut32.lib;wbemuuid.lib;Ws2_32.lib;libclient.lib;librpc.lib;libp4sslstub.lib;libsupp.lib</AdditionalDependencies>
       <ModuleDefinitionFile>$(SolutionDir)p4_plugin.vc.def</ModuleDefinitionFile>
     </Link>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)package.bat "$(SolutionDir)" $(Configuration) $(TargetName)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying files to package...</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,6 +115,19 @@
     <ClInclude Include="..\include\targetver.h" />
     <ClInclude Include="..\include\UniqueBuffer.h" />
     <ClInclude Include="..\include\version.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\p4-far-plugin_en.hlf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+    </None>
+    <None Include="..\p4-far-plugin_en.lng">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </None>
+    <None Include="..\p4_plugin.vc.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,4 +25,5 @@
 *.vssscc
 ipch/
 plugin/Debug/
+plugin/Package/
 plugin/p4-plugin-msvc2012/Debug/

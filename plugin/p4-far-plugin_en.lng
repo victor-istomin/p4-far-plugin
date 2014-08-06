@@ -1,0 +1,23 @@
+﻿.Language=English,English
+
+"P4 Plugin"
+
+"Information>"
+"Settings..."
+"Start GUI"
+
+"File opearions>"
+"Edit"
+"Add"
+"Delete"
+"Revert"
+"Sync"
+
+"General information"
+"About"
+
+"P4 Plugin version %d.%d.%d by Victor Istomin"
+"This plugin is intended to automatize usual perforce operations using p4."
+"Currently implemented:"
+
+"Perforce client"
