@@ -21,6 +21,8 @@ public:
     typedef std::vector<std::string> TFileNames;
 
 	void showInfo();
+    void showWorkspaceInfo();
+
 	//void showFileInfo();
 	void addFiles   (const TFileNames& files)   { processFiles("add",    files); }
 	void editFiles  (const TFileNames& files)   { processFiles("edit",   files); }

@@ -12,10 +12,13 @@ Functionality
 * P4 login when logged out
  - [*] 'p4 login' call in command-line (first step)
  - login dialog
- - woorkspace caching (history)
+ - workspace caching (history)
  - authenticate using stored MD5(password)?
 * auto 'p4 edit' when editing versioned readonly file
 * support for long messages (word wrap) in errors message box
+* P4 Client informationm support
+ - [*] basic support
+ - login if needed
 
 Code
 ----

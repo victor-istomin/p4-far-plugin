@@ -14,6 +14,7 @@
 "Sync"
 
 "General information"
+"Workspace information"
 "About"
 
 "P4 Plugin version %d.%d.%d by Victor Istomin"
@@ -21,3 +22,4 @@
 "Currently implemented:"
 
 "Perforce client"
+"Perforce workspace"

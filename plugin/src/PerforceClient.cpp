@@ -109,6 +109,26 @@ void PerforceClient::showInfo()
 	displayMessage(MP4ClientInformationTitle, cu.getBuf());
 }
 
+void PerforceClient::showWorkspaceInfo()
+{
+    OutputClient ui;
+    char* argv[] = {"-o"};
+    m_client->SetArgv(_countof(argv), argv);
+    m_client->Run("client", &ui);
+
+    if(ui.isTicketExpired() || ui.isErrorExists()) 
+    {
+        displayMessage(MTitle, ui.getError());
+    }
+    else
+    {
+        displayMessage(MP4WorkspaceInformationTitle, ui.getBuf());
+    }
+
+    // TODO: login support
+}
+
+
 // TODO - implement
 void PerforceClient::callP4V(const std::wstring& command, const std::wstring& file)
 {
@@ -257,3 +277,4 @@ void PerforceClient::processFiles(const char *cmd,  const TFileNames& files)
 
     // todo - display  warnings like editing remote depot, etc.
 }
+

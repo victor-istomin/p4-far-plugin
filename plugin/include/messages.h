@@ -16,6 +16,7 @@ enum
     MMenuFileSync,
 
     MMenuInformationGeneral,
+    MMenuInformationWorkspace,
     MMenuInformationAbout,
 
     MInfoSummary,
@@ -23,4 +24,5 @@ enum
     MInfoImplemented1,
 
     MP4ClientInformationTitle,   //!< information about current P4 client
+    MP4WorkspaceInformationTitle,   //!< information about current P4 workspace
 };

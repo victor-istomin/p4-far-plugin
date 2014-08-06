@@ -108,6 +108,21 @@ intptr_t displayGenericInformation(intptr_t)
     return 0;
 }
 
+intptr_t displayWorkspaceInformation(intptr_t)
+{
+    try
+    {
+        PerforceClient client(&PerforceMessageGuid);
+        client.showWorkspaceInfo();
+    }
+    catch (const std::exception& e)
+    {
+        ::MessageBoxA(0, e.what(), "Error", MB_ICONERROR);
+    }
+
+    return 0;
+}
+
 intptr_t displayAboutInformation(intptr_t)
 {
     ::MessageBoxA(NULL, "", "", 0);
@@ -153,8 +168,9 @@ HANDLE WINAPI OpenW(const OpenInfo* openInfo)
 {
     static const FarMenu::Item infoMenuItems[] = 
     { 
-        FarMenu::Item(FarMenu::Item::Command(&displayGenericInformation), MMenuInformationGeneral), 
-        FarMenu::Item(FarMenu::Item::Command(&displayAboutInformation),   MMenuInformationAbout)
+        FarMenu::Item(FarMenu::Item::Command(&displayGenericInformation),   MMenuInformationGeneral), 
+        FarMenu::Item(FarMenu::Item::Command(&displayWorkspaceInformation), MMenuInformationWorkspace), 
+        FarMenu::Item(FarMenu::Item::Command(&displayAboutInformation),     MMenuInformationAbout)
     };
 
     static const FarMenu infoMenu = FarMenu(MenuInfoGuid, infoMenuItems);
