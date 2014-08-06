@@ -3,9 +3,9 @@ TODO List
 
 Legend
 ------
-* Task in progress
-+ Done task
-- Planned task
+* [*] Task in progress
+* [+] Done task
+* [-] Planned task
 
 Functionality
 -------------
@@ -17,11 +17,11 @@ Functionality
 Code
 ----
 * Cleanup entire code
-- Dialogs wrapper
+* Dialogs wrapper
 
 Other
 -----
-- Choose license
-- Release and x64 builds
-- Plugring release
+* Choose license
+* Release and x64 builds
+* Plugring release
 
