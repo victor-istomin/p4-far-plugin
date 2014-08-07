@@ -17,7 +17,7 @@ Functionality
 * auto 'p4 edit' when editing versioned readonly file
 * support for long messages (word wrap) in errors message box
 * P4 Client informationm support
- - [*] basic support
+ - [+] basic support
  - login if needed
 
 Code

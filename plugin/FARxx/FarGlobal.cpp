@@ -98,3 +98,26 @@ FarGlobal::TPanelItems FarGlobal::GetSelectedItems(TPanelDirectoryPtr& directory
     return items;
 }
 
+bool FarGlobal::InbutBox(const GUID* messageId, const std::wstring& titleMsg, const std::wstring& subTitleMessage, 
+                             const wchar_t* history, std::wstring& userText, 
+                             INPUTBOXFLAGS flags/* = FIB_NONE*/, const wchar_t* helpTopic/* = NULL*/)
+{
+    assert(!history && "history is not supported");
+
+    FarGlobal* i = instance();
+    const size_t MAX_SIZE = 65535;
+    wchar_t result[MAX_SIZE];
+    result[0] = L'\0';
+
+    intptr_t bIsOk = i->m_api.InputBox(i->m_mainGuid, messageId, titleMsg.c_str(), subTitleMessage.c_str(), history, userText.c_str(), 
+        &result[0], _countof(result), helpTopic, flags);
+
+    userText.clear();
+    if(bIsOk)
+    {
+        userText = result;
+    }
+
+    return bIsOk != FALSE;
+}
+

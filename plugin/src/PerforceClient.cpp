@@ -10,6 +10,7 @@
 #include "FarGlobal.h"
 #include "messages.h"
 #include "stringUtils.h"
+#include "guid.hpp"
 
 namespace 
 {
@@ -71,6 +72,8 @@ PerforceClient::PerforceClient(const GUID* messagesId)
     m_client.reset(new ClientApi);
 	m_client->SetCwd(currentDir.c_str());
     m_client->Init(m_error.get());
+
+    // TODO: set client/password?
 
     if (m_error->Test()) 
 		exception("Connection failed", m_error.get());
@@ -286,12 +289,45 @@ void PerforceClient::processFiles(const char *cmd,  const TFileNames& files)
     TFileNames argvFiles = files;
     std::for_each(begin(argvFiles), end(argvFiles), [&argv](std::string& s){argv.push_back(&s[0]);});
 	
+    OutputClient ui;
+    m_client->Run("logout", &ui); // debug code! TODO: remove
 	m_client->SetArgv(argv.size(), &argv[0]);
+    m_client->Run( cmd, &ui );
 
-	OutputClient ui;
-	m_client->Run( cmd, &ui );
+    std::string upperError;
+    if(ui.isTicketExpired() || ui.isErrorExists())
+    {
+        upperError = ui.getError().Text();
+        std::transform(begin(upperError), end(upperError), begin(upperError), toupper);
+    }
+    
+    if(ui.isTicketExpired() || upperError.find("PASSW") != std::string::npos)
+    {
+        // start p4 login, then try to redo command
+        std::wstring subTitle = FarGlobal::GetMsg(MP4LoginWorkspaceMessage);
+        std::wstring workspace = ansi2wide(m_client->GetClient().Text());
+        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, workspace))
+        {
+            m_client->SetClient(wide2ansi(workspace).c_str());
+        }
 
-	if(ui.isTicketExpired() || ui.isErrorExists()) 
+        subTitle = FarGlobal::GetMsg(MP4LoginSaysMessageTitle) + ansi2wide(ui.getError().Text());
+        std::wstring password;
+
+        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, password, FIB_PASSWORD))
+        {
+            std::string ansiPassword = wide2ansi(password);
+            m_client->SetPassword(ansiPassword.c_str()); // TODO: md5 hash?
+            std::fill(begin(ansiPassword), end(ansiPassword), '*');
+
+            m_client->SetArgv(argv.size(), &argv[0]);
+            m_client->Run(cmd, &ui);
+        }
+
+        std::fill(begin(password), end(password), L'*');
+    }
+
+	if(ui.isErrorExists() || ui.isTicketExpired()) 
     {
 		displayMessage(MTitle, ui.getError());
 	}
