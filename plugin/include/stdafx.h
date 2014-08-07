@@ -15,6 +15,8 @@
 
 #include <cstring>
 #include <cassert>
+#include <clocale>
+#include <cctype>
 
 #include <vector>
 #include <algorithm>

@@ -122,7 +122,28 @@ void PerforceClient::showWorkspaceInfo()
     }
     else
     {
-        displayMessage(MP4WorkspaceInformationTitle, ui.getBuf());
+        // remove comments and empty lines
+        std::vector<std::string> lines = tokenize(ui.getBuf().Text(), '\n');
+        std::string result;
+
+        std::for_each(begin(lines), end(lines), [&result](const std::string& line){
+            const char COMMENT_CHAR = '#';
+
+            std::string trimmed = line; 
+            std::transform(begin(trimmed), end(trimmed), begin(trimmed), [](const char c) {
+                return isspace(c) ? ' ' : c;
+            });
+            trim(trimmed);
+
+            if (!trimmed.empty() && trimmed.front() != COMMENT_CHAR)
+            {
+                static const std::string lf = "\n";
+                result += trimmed;
+                result += lf;
+            }
+        });
+
+        FarGlobal::Message(m_messagesId, FMSG_MB_OK|FMSG_LEFTALIGN, MP4WorkspaceInformationTitle, ansi2wide(result).c_str());
     }
 
     // TODO: login support

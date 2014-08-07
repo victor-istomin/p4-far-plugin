@@ -29,6 +29,8 @@ Code
   + [*] Base support
   + invesigate and implement history support
   + Buttons and additional flags
+* String utils
+ - [+] tokenize, trim
 
 Other
 -----
