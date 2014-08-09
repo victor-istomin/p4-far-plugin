@@ -4,9 +4,14 @@ enum
 {
     MTitle,
 
+    MMenuLogin,
     MMenuMessageInfo,
     MMenuSettings,
     MMenuCallPerforceGui,
+
+    MLoginTitle,
+    MLoginBottom,
+    MLoginDummyItem,
 
     MMenuFileOperations,
     MMenuFileEdit,

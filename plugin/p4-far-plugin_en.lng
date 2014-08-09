@@ -2,9 +2,14 @@
 
 "P4 Plugin"
 
+"Login..."
 "Information>"
 "Settings..."
 "Start GUI"
+
+"Choose P4 credentials"
+"ADD: Ins, DEL: Delete"
+" "
 
 "File opearions>"
 "Edit"
