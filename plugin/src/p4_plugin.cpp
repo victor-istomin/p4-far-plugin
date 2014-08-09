@@ -168,32 +168,33 @@ HANDLE WINAPI OpenW(const OpenInfo* openInfo)
 {
     static const FarMenu::Item infoMenuItems[] = 
     { 
-        FarMenu::Item(FarMenu::Item::Command(&displayGenericInformation),   MMenuInformationGeneral), 
-        FarMenu::Item(FarMenu::Item::Command(&displayWorkspaceInformation), MMenuInformationWorkspace), 
-        FarMenu::Item(FarMenu::Item::Command(&displayAboutInformation),     MMenuInformationAbout)
+        FarMenu::Item(FarMenu::Command(&displayGenericInformation),   MMenuInformationGeneral), 
+        FarMenu::Item(FarMenu::Command(&displayWorkspaceInformation), MMenuInformationWorkspace), 
+        FarMenu::Item(FarMenu::Command(&displayAboutInformation),     MMenuInformationAbout)
     };
 
-    static const FarMenu infoMenu = FarMenu(MenuInfoGuid, infoMenuItems);
+    static const FarMenu infoMenu = FarMenu(MenuInfoGuid, makeMenuItems(infoMenuItems));
 
     static const FarMenu::Item fileMenuItems[] = {
-        FarMenu::Item(FarMenu::Item::Command(std::bind(&p4_fileCommand, &PerforceClient::editFiles,   std::placeholders::_1)), MMenuFileEdit),
-        FarMenu::Item(FarMenu::Item::Command(std::bind(&p4_fileCommand, &PerforceClient::addFiles,    std::placeholders::_1)), MMenuFileAdd),
-        FarMenu::Item(FarMenu::Item::Command(std::bind(&p4_fileCommand, &PerforceClient::deleteFiles, std::placeholders::_1)), MMenuFileDelete),
-        FarMenu::Item(FarMenu::Item::Command(std::bind(&p4_fileCommand, &PerforceClient::revertFiles, std::placeholders::_1)), MMenuFileRevert),
-        FarMenu::Item(FarMenu::Item::Command(std::bind(&p4_fileCommand, &PerforceClient::syncFiles,   std::placeholders::_1)), MMenuFileSync)
+        FarMenu::Item(FarMenu::Command(std::bind(&p4_fileCommand, &PerforceClient::editFiles,   std::placeholders::_1)), MMenuFileEdit),
+        FarMenu::Item(FarMenu::Command(std::bind(&p4_fileCommand, &PerforceClient::addFiles,    std::placeholders::_1)), MMenuFileAdd),
+        FarMenu::Item(FarMenu::Command(std::bind(&p4_fileCommand, &PerforceClient::deleteFiles, std::placeholders::_1)), MMenuFileDelete),
+        FarMenu::Item(FarMenu::Command(std::bind(&p4_fileCommand, &PerforceClient::revertFiles, std::placeholders::_1)), MMenuFileRevert),
+        FarMenu::Item(FarMenu::Command(std::bind(&p4_fileCommand, &PerforceClient::syncFiles,   std::placeholders::_1)), MMenuFileSync)
     };
 
-    static const FarMenu fileMenu = FarMenu(MenuFileGuid, fileMenuItems);
+    static const FarMenu fileMenu = FarMenu(MenuFileGuid, makeMenuItems(fileMenuItems));
+
 
     static const FarMenu::Item mainMenuItems[] = 
     {
         FarMenu::Item(infoMenu, MMenuMessageInfo), 
         FarMenu::Item(fileMenu, MMenuFileOperations),
-        FarMenu::Item(FarMenu::Item::Command(&callP4V), MMenuCallPerforceGui),
-        FarMenu::Item(FarMenu::Item::Command(&displaySettings), MMenuSettings)        
+        FarMenu::Item(FarMenu::Command(&callP4V), MMenuCallPerforceGui),
+        FarMenu::Item(FarMenu::Command(&displaySettings), MMenuSettings)        
     };
 
-    static const FarMenu menu = FarMenu(MenuGuid, mainMenuItems, nullptr, FMENU_AUTOHIGHLIGHT, MTitle);
+    static const FarMenu menu = FarMenu(MenuGuid, makeMenuItems(mainMenuItems), nullptr, FMENU_AUTOHIGHLIGHT, MTitle);
 
     intptr_t result = menu.run();
     
