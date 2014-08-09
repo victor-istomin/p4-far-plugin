@@ -23,6 +23,10 @@ enum
     MInfoImplemented,
     MInfoImplemented1,
 
-    MP4ClientInformationTitle,   //!< information about current P4 client
+    MP4ClientInformationTitle,      //!< information about current P4 client
     MP4WorkspaceInformationTitle,   //!< information about current P4 workspace
+
+    MP4LoginMessageTitle,           //!< title of login message
+    MP4LoginSaysMessageTitle,       //!< title 'p4 login says:'
+    MP4LoginWorkspaceMessage,       //!< tiitle of workspace name message
 };

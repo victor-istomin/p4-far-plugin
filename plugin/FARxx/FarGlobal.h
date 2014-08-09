@@ -55,6 +55,9 @@ public:
     static TPanelItems GetSelectedItems(TPanelDirectoryPtr& directoryPtr);
 
     //! display simple message. May contain '\n'
-    static intptr_t Message(const GUID* id, FARMESSAGEFLAGS flags, int captionMessageId, const wchar_t* message, const wchar_t* helpTopic = NULL);
+    static intptr_t Message(const GUID* messageId, FARMESSAGEFLAGS flags, int captionMessageId, const wchar_t* message, const wchar_t* helpTopic = NULL);
+
+    //! display input box and get string from user
+    static bool InbutBox(const GUID* messageId, const std::wstring& titleMsg, const std::wstring& subTitleMessage, const wchar_t* history, std::wstring& userText, INPUTBOXFLAGS flags = FIB_NONE, const wchar_t* helpTopic = NULL);
 };
 

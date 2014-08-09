@@ -10,14 +10,19 @@ Legend
 Functionality
 -------------
 * P4 login when logged out
- - [*] 'p4 login' call in command-line (first step)
- - login dialog
- - workspace caching (history)
- - authenticate using stored MD5(password)?
+ - login menu support
+  + [*] save login-password in menu 
+  + auto display login box when needed
+  + save workspace path in menu, auto-suggest login/workspace/password
+  + authenticate using stored MD5(password)?
+* refactoring
+ - rename '.+Guid' to 'Guid.+'
+ - rename 'FarMenu::MenuItems' to 'FarMenu::Items'
+ - move menu items handler to separate class
 * auto 'p4 edit' when editing versioned readonly file
 * support for long messages (word wrap) in errors message box
 * P4 Client informationm support
- - [*] basic support
+ - [+] basic support
  - login if needed
 
 Code
