@@ -135,6 +135,18 @@ intptr_t displaySettings(intptr_t)
     return 0;
 }
 
+intptr_t addLoginRow(intptr_t)
+{
+    ::MessageBoxA(NULL, "TODO", "TODO", 0);
+    return 0;
+}
+
+intptr_t deleteLoginRow(intptr_t)
+{
+    ::MessageBoxA(NULL, "TODO", "TODO", 0);
+    return 0;
+}
+
 intptr_t p4_fileCommand(TFilesFunction function, intptr_t)
 {
     FarGlobal::TPanelDirectoryPtr directoryPtr;
@@ -166,6 +178,7 @@ intptr_t p4_fileCommand(TFilesFunction function, intptr_t)
 
 HANDLE WINAPI OpenW(const OpenInfo* openInfo)
 {
+
     static const FarMenu::Item infoMenuItems[] = 
     { 
         FarMenu::Item(FarMenu::Command(&displayGenericInformation),   MMenuInformationGeneral), 
@@ -185,9 +198,15 @@ HANDLE WINAPI OpenW(const OpenInfo* openInfo)
 
     static const FarMenu fileMenu = FarMenu(MenuFileGuid, makeMenuItems(fileMenuItems));
 
+    static const FarMenu::Item  loginItems[]  = {FarMenu::Item(FarMenu::Command(&addLoginRow), MLoginDummyItem)};
+    static const FarMenu::Break loginBreaks[] = {makeBreakItem(VK_INSERT, 0, &addLoginRow), makeBreakItem(VK_DELETE, 0, &deleteLoginRow)};
+    
+    static const FarMenu loginMenu = FarMenu(MenuLoginGuid, makeMenuItems(loginItems), nullptr, FMENU_AUTOHIGHLIGHT|FMENU_WRAPMODE, 
+        MLoginTitle, MLoginBottom, makeBreakKeys(loginBreaks));
 
     static const FarMenu::Item mainMenuItems[] = 
     {
+        FarMenu::Item(loginMenu, MMenuLogin),
         FarMenu::Item(infoMenu, MMenuMessageInfo), 
         FarMenu::Item(fileMenu, MMenuFileOperations),
         FarMenu::Item(FarMenu::Command(&callP4V), MMenuCallPerforceGui),
