@@ -11,11 +11,16 @@
 #include "messages.h"
 #include "stringUtils.h"
 #include "guid.hpp"
+#include "FarSettingsKey.h"
+// test code
 
-namespace 
+namespace
 {
     class OutputClient : public ClientUser
     {
+        OutputClient(const OutputClient&); // = delete
+        OutputClient& operator=(const OutputClient&); // = delete
+
     public:
         OutputClient() : m_isError(false), m_isExpired(false) {} 
 
@@ -48,7 +53,7 @@ namespace
 
         bool isErrorExists() const      { return m_isError; }
         bool isTicketExpired() const    { return m_isExpired; }
-    
+
         const StrBuf& getError() const  { return m_err; }
         const StrBuf& getBuf() const    { return m_buf; }
         const StrDict& getDict() const  { return m_dict; }
@@ -289,47 +294,68 @@ void PerforceClient::processFiles(const char *cmd,  const TFileNames& files)
     TFileNames argvFiles = files;
     std::for_each(begin(argvFiles), end(argvFiles), [&argv](std::string& s){argv.push_back(&s[0]);});
 	
-    OutputClient ui;
-    m_client->Run("logout", &ui); // debug code! TODO: remove
+    std::unique_ptr<OutputClient> ui;
+    ui.reset(new OutputClient);
+
+    m_client->Run("logout", ui.get()); // debug code! TODO: remove
 	m_client->SetArgv(argv.size(), &argv[0]);
-    m_client->Run( cmd, &ui );
+    m_client->Run(cmd, ui.get());
 
     std::string upperError;
-    if(ui.isTicketExpired() || ui.isErrorExists())
+    if(ui->isTicketExpired() || ui->isErrorExists())
     {
-        upperError = ui.getError().Text();
+        upperError = ui->getError().Text();
         std::transform(begin(upperError), end(upperError), begin(upperError), toupper);
     }
     
-    if(ui.isTicketExpired() || upperError.find("PASSW") != std::string::npos)
+    if(ui->isTicketExpired() 
+        || upperError.find("PASSW") != std::string::npos
+        || upperError.find("NOT ON CLIENT") != std::string::npos )
     {
+        // test code
+        FarSettingsKey workspaceOption = FarSettingsKey::Root::get(L"user.workspace");
+        FarSettingsKey loginOption     = FarSettingsKey::Root::get(L"user.login");
+        FarSettingsKey passwordOption  = FarSettingsKey::Root::get(L"user.password");
+
+        //  --------
         // start p4 login, then try to redo command
         std::wstring subTitle = FarGlobal::GetMsg(MP4LoginWorkspaceMessage);
-        std::wstring workspace = ansi2wide(m_client->GetClient().Text());
+        std::wstring workspace = workspaceOption.getWstring( ansi2wide(m_client->GetClient().Text()) );
         if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, workspace))
         {
             m_client->SetClient(wide2ansi(workspace).c_str());
+            workspaceOption.setWstring(workspace);
         }
 
-        subTitle = FarGlobal::GetMsg(MP4LoginSaysMessageTitle) + ansi2wide(ui.getError().Text());
-        std::wstring password;
+        subTitle = FarGlobal::GetMsg(MP4LoginUsernameMessage);
+        std::wstring userName = loginOption.getWstring( ansi2wide(m_client->GetUser().Text()) );
+        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, userName))
+        {
+            m_client->SetUser(wide2ansi(userName).c_str());
+            loginOption.setWstring(userName);
+        }
 
+        subTitle = FarGlobal::GetMsg(MP4LoginPasswordMessage);
+        std::wstring password = passwordOption.getWstring( ansi2wide(m_client->GetPassword().Text()) ); // TODO: md5
         if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, password, FIB_PASSWORD))
         {
             std::string ansiPassword = wide2ansi(password);
+            passwordOption.setWstring(password);
+
             m_client->SetPassword(ansiPassword.c_str()); // TODO: md5 hash?
             std::fill(begin(ansiPassword), end(ansiPassword), '*');
 
+            ui.reset(new OutputClient);
             m_client->SetArgv(argv.size(), &argv[0]);
-            m_client->Run(cmd, &ui);
+            m_client->Run(cmd, ui.get());
         }
 
         std::fill(begin(password), end(password), L'*');
     }
 
-	if(ui.isErrorExists() || ui.isTicketExpired()) 
+	if(ui->isErrorExists() || ui->isTicketExpired()) 
     {
-		displayMessage(MTitle, ui.getError());
+		displayMessage(MTitle, ui->getError());
 	}
 
     // todo - display  warnings like editing remote depot, etc.

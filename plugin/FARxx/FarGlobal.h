@@ -30,6 +30,10 @@ class FarGlobal
 public:
     ~FarGlobal() {}
 
+    typedef UniqueBuffer<PluginPanelItem*>   TPanelItemPtr;
+    typedef UniqueBuffer<FarPanelDirectory*> TPanelDirectoryPtr;
+    typedef std::vector<TPanelItemPtr>       TPanelItems;
+
     static FarGlobal* instance(const PluginStartupInfo& api = PluginStartupInfo(), const GUID* mainGuid = nullptr);
     //static void updateOpenInfo(const OpenInfo* info);
     //static const OpenInfo& 
@@ -48,10 +52,6 @@ public:
     static void GetCurrentDirectory(std::wstring& path);        //!< get path to current directory in active pane
     static void GetCurrentDirectory(std::string& path);         //!< get path to current directory in active pane
 
-    typedef UniqueBuffer<PluginPanelItem*>   TPanelItemPtr;
-    typedef UniqueBuffer<FarPanelDirectory*> TPanelDirectoryPtr;
-    typedef std::vector<TPanelItemPtr>       TPanelItems;
-
     static TPanelItems GetSelectedItems(TPanelDirectoryPtr& directoryPtr);
 
     //! display simple message. May contain '\n'
@@ -59,5 +59,8 @@ public:
 
     //! display input box and get string from user
     static bool InbutBox(const GUID* messageId, const std::wstring& titleMsg, const std::wstring& subTitleMessage, const wchar_t* history, std::wstring& userText, INPUTBOXFLAGS flags = FIB_NONE, const wchar_t* helpTopic = NULL);
+
+    const GUID&              mainGuid() const { return *m_mainGuid; }
+    const PluginStartupInfo& api() const      { return m_api; }
 };
 

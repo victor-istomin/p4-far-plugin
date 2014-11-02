@@ -39,6 +39,9 @@
     <ClCompile Include="..\FARxx\FarMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\FARxx\FarSettingsKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FARxx\FarEditor.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FARxx\FarSettingsKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

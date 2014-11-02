@@ -91,6 +91,7 @@
     <ClCompile Include="..\FARxx\FarEditor.cpp" />
     <ClCompile Include="..\FARxx\FarGlobal.cpp" />
     <ClCompile Include="..\FARxx\FarMenu.cpp" />
+    <ClCompile Include="..\FARxx\FarSettingsKey.cpp" />
     <ClCompile Include="..\src\dllmain.cpp" />
     <ClCompile Include="..\src\P4FileEditor.cpp" />
     <ClCompile Include="..\src\p4_plugin.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="..\FARxx\FarEditor.h" />
     <ClInclude Include="..\FARxx\FarGlobal.h" />
     <ClInclude Include="..\FARxx\FarMenu.h" />
+    <ClInclude Include="..\FARxx\FarSettingsKey.h" />
     <ClInclude Include="..\include\guid.hpp" />
     <ClInclude Include="..\include\initStructSize.hpp" />
     <ClInclude Include="..\include\messages.h" />

@@ -17,6 +17,8 @@
 #include <cassert>
 #include <clocale>
 #include <cctype>
+#include <cstdint>
+#include <ctime>
 
 #include <vector>
 #include <algorithm>

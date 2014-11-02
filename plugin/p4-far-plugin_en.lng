@@ -26,4 +26,6 @@
 
 "Perforce login"
 "Perforce says: "
-"Enter client: "
+"User name: "
+"Workspace: "
+"Password: "
