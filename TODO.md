@@ -11,9 +11,9 @@ Functionality
 -------------
 * P4 login when logged out
  - login menu support
-  + [*] save login-password in menu 
-  + auto display login box when needed
-  + save workspace path in menu, auto-suggest login/workspace/password
+  + [+] save login, worspace, password dialog
+  + [*] support multiple credentials in settings
+  + login dialog integration to login menu
   + authenticate using stored MD5(password)?
 * refactoring
  - rename '.+Guid' to 'Guid.+'
@@ -28,10 +28,9 @@ Functionality
 Code
 ----
 * Cleanup entire code
-* Dialogs wrapper
 * FarGlobal class:
- - [*] InputBox support
-  + [*] Base support
+ - [+] InputBox support
+  + [+] Base support
   + invesigate and implement history support
   + Buttons and additional flags
 * String utils

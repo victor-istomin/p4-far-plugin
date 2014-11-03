@@ -36,4 +36,7 @@ enum
     MP4LoginUsernameMessage,        //!< prompt for user name
     MP4LoginWorkspaceMessage,       //!< tiitle of workspace name message
     MP4LoginPasswordMessage,        //!< prompt for password
+    MP4LoginRememberPassword,       //!< ask if password should be saved
+    MP4LoginOkButton,
+    MP4LoginCancelButton,
 };

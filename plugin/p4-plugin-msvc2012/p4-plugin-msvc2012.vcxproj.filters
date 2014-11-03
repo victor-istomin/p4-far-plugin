@@ -42,6 +42,9 @@
     <ClCompile Include="..\FARxx\FarSettingsKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\LoginDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FARxx\FarEditor.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\FARxx\FarSettingsKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LoginDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

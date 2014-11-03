@@ -93,6 +93,7 @@
     <ClCompile Include="..\FARxx\FarMenu.cpp" />
     <ClCompile Include="..\FARxx\FarSettingsKey.cpp" />
     <ClCompile Include="..\src\dllmain.cpp" />
+    <ClCompile Include="..\src\LoginDialog.cpp" />
     <ClCompile Include="..\src\P4FileEditor.cpp" />
     <ClCompile Include="..\src\p4_plugin.cpp" />
     <ClCompile Include="..\src\PerforceClient.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="..\FARxx\FarSettingsKey.h" />
     <ClInclude Include="..\include\guid.hpp" />
     <ClInclude Include="..\include\initStructSize.hpp" />
+    <ClInclude Include="..\include\LoginDialog.h" />
     <ClInclude Include="..\include\messages.h" />
     <ClInclude Include="..\include\NonCopyable.h" />
     <ClInclude Include="..\include\P4FileEditor.h" />

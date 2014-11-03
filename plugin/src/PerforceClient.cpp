@@ -12,15 +12,13 @@
 #include "stringUtils.h"
 #include "guid.hpp"
 #include "FarSettingsKey.h"
+#include "LoginDialog.h"
 // test code
 
 namespace
 {
-    class OutputClient : public ClientUser
+    class OutputClient : public ClientUser, NonCopyable
     {
-        OutputClient(const OutputClient&); // = delete
-        OutputClient& operator=(const OutputClient&); // = delete
-
     public:
         OutputClient() : m_isError(false), m_isExpired(false) {} 
 
@@ -309,48 +307,49 @@ void PerforceClient::processFiles(const char *cmd,  const TFileNames& files)
     }
     
     if(ui->isTicketExpired() 
-        || upperError.find("PASSW") != std::string::npos
-        || upperError.find("NOT ON CLIENT") != std::string::npos )
+        || upperError.find("PASSW")          != std::string::npos
+        || upperError.find("ON THIS CLIENT") != std::string::npos )
     {
-        // test code
-        FarSettingsKey workspaceOption = FarSettingsKey::Root::get(L"user.workspace");
         FarSettingsKey loginOption     = FarSettingsKey::Root::get(L"user.login");
+        FarSettingsKey workspaceOption = FarSettingsKey::Root::get(L"user.workspace");
         FarSettingsKey passwordOption  = FarSettingsKey::Root::get(L"user.password");
+        FarSettingsKey rememberOption  = FarSettingsKey::Root::get(L"user.rememberMe");
 
-        //  --------
-        // start p4 login, then try to redo command
-        std::wstring subTitle = FarGlobal::GetMsg(MP4LoginWorkspaceMessage);
-        std::wstring workspace = workspaceOption.getWstring( ansi2wide(m_client->GetClient().Text()) );
-        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, workspace))
-        {
-            m_client->SetClient(wide2ansi(workspace).c_str());
-            workspaceOption.setWstring(workspace);
-        }
+        CLoginDialog::Credentials previous = CLoginDialog::Credentials(
+            loginOption.getWstring        (ansi2wide(m_client->GetUser().Text())), 
+            workspaceOption.getWstring    (ansi2wide(m_client->GetClient().Text())),
+            passwordOption.getWstring     (ansi2wide(m_client->GetPassword().Text())), 
+            rememberOption.getNumber<int>(1) != 0);
 
-        subTitle = FarGlobal::GetMsg(MP4LoginUsernameMessage);
-        std::wstring userName = loginOption.getWstring( ansi2wide(m_client->GetUser().Text()) );
-        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, userName))
+        CLoginDialog loginDialog(previous, true);
+        if (loginDialog.Run())
         {
+            // start p4 login, then try to redo command
+            std::wstring userName  = loginDialog.credentials().login;
+            std::wstring workspace = loginDialog.credentials().workspace;
+            std::wstring password  = loginDialog.credentials().password; // TODO: md5
+
             m_client->SetUser(wide2ansi(userName).c_str());
-            loginOption.setWstring(userName);
-        }
-
-        subTitle = FarGlobal::GetMsg(MP4LoginPasswordMessage);
-        std::wstring password = passwordOption.getWstring( ansi2wide(m_client->GetPassword().Text()) ); // TODO: md5
-        if(FarGlobal::InbutBox(&PerforceMessageGuid, FarGlobal::GetMsg(MP4LoginMessageTitle), subTitle, NULL, password, FIB_PASSWORD))
-        {
+            m_client->SetClient(wide2ansi(workspace).c_str());
             std::string ansiPassword = wide2ansi(password);
-            passwordOption.setWstring(password);
+            m_client->SetPassword(ansiPassword.c_str());
 
-            m_client->SetPassword(ansiPassword.c_str()); // TODO: md5 hash?
-            std::fill(begin(ansiPassword), end(ansiPassword), '*');
+            loginOption.setWstring(userName);
+            workspaceOption.setWstring(workspace);
+            rememberOption.setNumber(loginDialog.credentials().savePassword ? 1 : 0);
+
+            if (loginDialog.credentials().savePassword)
+            {
+                passwordOption.setWstring(password);
+            }
+
+            SecureZeroMemory(&ansiPassword[0], ansiPassword.size());
+            SecureZeroMemory(&password[0],     password.size());
 
             ui.reset(new OutputClient);
             m_client->SetArgv(argv.size(), &argv[0]);
             m_client->Run(cmd, ui.get());
         }
-
-        std::fill(begin(password), end(password), L'*');
     }
 
 	if(ui->isErrorExists() || ui->isTicketExpired()) 
